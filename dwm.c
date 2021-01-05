@@ -18,7 +18,7 @@
  *
  * Keys and tagging rules are organized as arrays and defined in config.h.
  *
- * To understand everything else, start reading main().
+ * To understand everything else, start reading main(). // TEST
  */
 #include <errno.h>
 #include <locale.h>
