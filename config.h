@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx       = 4;   /* border pixel of windows */
+static const unsigned int borderpx       = 2;   /* border pixel of windows */
 static const unsigned int snap           = 32;  /* snap pixel */
 static const unsigned int gappih         = 20;  /* horiz inner gap between windows */
 static const unsigned int gappiv         = 10;  /* vert inner gap between windows */
@@ -25,15 +25,55 @@ static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows sel
 static const unsigned int systrayspacing = 0;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray             = 1;   /* 0 means no systray */
-static const char *fonts[]               = { "UbuntuMono Bold:size=12" };
-static const char dmenufont[]            = "UbuntuMono Bold:size=12";
-static const char col_gray1[]            = "#180A13";
-static const char col_gray2[]            = "#444444";
-static const char col_gray3[]            = "#C6BDBD";
-static const char col_gray4[]            = "#FFF7D4";
-static const char col_cyan[]             = "#330000";
+static const char *fonts[]               = { "Ubuntu Mono Bold:size=12" };
+static const char dmenufont[]            = "Ubuntu Mono Bold:size=12";
+static const char col_gray1[]            = "#1c2023";
+static const char col_gray2[]            = "#111111";
+static const char col_gray3[]            = "#c5c8c6";  // status fg
+static const char col_gray4[]            = "#1d1f21";
+static const char col_cyan[]             = "#f0c674"; // bar color
 static const unsigned int baralpha       = 0xd0;
 static const unsigned int borderalpha    = OPAQUE;
+
+
+// ! special
+// *.foreground:   #c5c8c6
+// *.background:   #1d1f21
+// *.cursorColor:  #c5c8c6
+//
+// ! black
+// *.color0:       #1d1f21
+// *.color8:       #969896
+//
+// ! red
+// *.color1:       #cc6666
+// *.color9:       #cc6666
+//
+// ! green
+// *.color2:       #b5bd68
+// *.color10:      #b5bd68
+//
+// ! yellow
+// *.color3:       #f0c674
+// *.color11:      #f0c674
+//
+// ! blue
+// *.color4:       #81a2be
+// *.color12:      #81a2be
+//
+// ! magenta
+// *.color5:       #b294bb
+// *.color13:      #b294bb
+//
+// ! cyan
+// *.color6:       #8abeb7
+// *.color14:      #8abeb7
+//
+// ! white
+// *.color7:       #c5c8c6
+// *.color15:      #ffffff
+
+
 static const char *colors[][3] = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -52,7 +92,7 @@ static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
-	 *  WM_WINDOW_ROLE(STRING) = role
+	 *  WM_WINDOW_ROLE(STRING) = role1c2023
 	 */
 	/* class            role                          instance     title   tags mask  switchtag  iscentered   isfloating   monitor */
 	{ "Gimp",           NULL,                         NULL,        NULL,   1 << 4,    1,         0,           1,           -1 },
@@ -114,7 +154,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, "-h", "30", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4,  NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 
 static Key keys[] = {
@@ -175,7 +215,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_g,      setflexlayout,     {.i = 257 } }, // columns (col) layout
 	{ MODKEY,                       XK_space,  setlayout,         {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating,    {0} },
-	{ MODKEY,                       XK_f,      togglefullscreen,  {0} },
+	// { MODKEY,                       XK_f,      togglefullscreen,  {0} },
 	{ MODKEY,                       XK_0,      view,              {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,               {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,          {.i = -1 } },
@@ -211,10 +251,15 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_Tab,    rotatelayoutaxis,  {.i = 1} },    /* flextile, 1 = master axis */
 	{ MODKEY|ControlMask|ShiftMask, XK_Tab,    rotatelayoutaxis,  {.i = 2} },    /* flextile, 2 = stack axis */
 	{ MODKEY|ControlMask,           XK_Return, mirrorlayout,      {0} },         /* flextile, flip master and stack areas */
-	{ 0, XF86XK_AudioMute,	       	spawn,		SHCMD("/home/iggarch/git/configs/custom_scripts/vol_mute") },
-	{ 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("/home/iggarch/git/configs/custom_scripts/vol_up") },
-	{ 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("/home/iggarch/git/configs/custom_scripts/vol_down") },
-
+	{ 0, XF86XK_AudioMute,	       	spawn,		SHCMD("/home/igg/git/configs/custom_scripts/vol_mute") },
+	{ 0, XF86XK_AudioRaiseVolume,		spawn,		SHCMD("/home/igg/git/configs/custom_scripts/vol_up") },
+	{ 0, XF86XK_AudioLowerVolume,		spawn,		SHCMD("/home/igg/git/configs/custom_scripts/vol_down") },
+	{ 0, XF86XK_MonBrightnessUp,  	spawn,		SHCMD("light -A 15") },
+	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("light -U 15") },
+	{ MODKEY, 											XK_p,			spawn,	          	SHCMD("firefox") },
+	{ MODKEY, 											XK_o,			spawn,	          	SHCMD("atom") },
+	{ MODKEY, 											XK_z,			spawn,	          	SHCMD("alacritty -e nvim /home/igg/git/wiki_me/wiki_me.md") },
+	{ MODKEY, 											XK_x,			spawn,	          	SHCMD("alacritty -e nvim /home/igg/git/wiki_me/to_do.md") },
 };
 
 /* button definitions */
@@ -240,3 +285,4 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,            Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,            Button3,        toggletag,      {0} },
 };
+
